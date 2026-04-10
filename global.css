@@ -88,23 +88,27 @@
   }
 
   .home-avatar {
-    @apply size-16 rounded-full;
+    @apply size-12 rounded-full;
   }
 
   .home-user-name {
-    @apply ml-4 text-2xl font-sans-bold text-primary;
+    @apply ml-4 text-xl font-sans-bold text-primary;
+  }
+
+  .home-user-time {
+    @apply ml-4 text-lg font-sans-medium text-muted-foreground;
   }
 
   .home-add-icon {
-    @apply size-12;
+    @apply size-12 p-3 rounded-full bg-accent-action;
   }
 
   .home-balance-card {
-    @apply my-2.5 min-h-50 justify-between gap-5 rounded-bl-4xl rounded-tr-4xl bg-accent p-6;
+    @apply relative my-2.5 min-h-50 justify-between gap-5 rounded-3xl bg-card border border-border p-5 overflow-hidden;
   }
 
   .home-balance-label {
-    @apply text-xl font-sans-semibold text-white/80;
+    @apply text-xl font-sans-semibold uppercase text-muted-foreground;
   }
 
   .home-balance-row {
@@ -112,11 +116,15 @@
   }
 
   .home-balance-amount {
-    @apply text-4xl font-sans-extrabold text-white;
+    @apply text-4xl font-sans-extrabold text-primary;
+  }
+
+  .home-balance-date-label {
+    @apply text-base font-sans-medium text-muted;
   }
 
   .home-balance-date {
-    @apply text-xl font-sans-medium text-white;
+    @apply text-2xl font-sans-semibold text-accent;
   }
 
   .list-head {
