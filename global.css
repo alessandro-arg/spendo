@@ -54,12 +54,12 @@
   --spacing-30: 120px;
 
   /* ── Typography (JetBrains Mono) ── */
-  --font-sans: jetbrains-mono-regular;
-  --font-sans-light: jetbrains-mono-light;
-  --font-sans-medium: jetbrains-mono-medium;
-  --font-sans-semibold: jetbrains-mono-semibold;
-  --font-sans-bold: jetbrains-mono-bold;
-  --font-sans-extrabold: jetbrains-mono-extrabold;
+  --font-sans: sans-regular;
+  --font-sans-light: sans-light;
+  --font-sans-medium: sans-medium;
+  --font-sans-semibold: sans-semibold;
+  --font-sans-bold: sans-bold;
+  --font-sans-extrabold: sans-extrabold;
 }
 
 @layer components {
