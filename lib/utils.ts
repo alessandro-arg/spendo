@@ -13,6 +13,7 @@ export function formatCurrency(
   try {
     const formattedNumber = new Intl.NumberFormat("de-DE", {
       minimumFractionDigits: 2,
+      currency,
       maximumFractionDigits: 2,
     }).format(numericValue);
 
@@ -22,7 +23,7 @@ export function formatCurrency(
   }
 }
 
-export const frormatSubscriptionDateTime = (value?: string): string => {
+export const formatSubscriptionDateTime = (value?: string): string => {
   if (!value) return "Not provided";
   const parsedDate = dayjs(value);
   return parsedDate.isValid()

@@ -1,7 +1,7 @@
 import {
   formatCurrency,
   formatStatusLabel,
-  frormatSubscriptionDateTime,
+  formatSubscriptionDateTime,
 } from "@/lib/utils";
 import clsx from "clsx";
 import React from "react";
@@ -24,6 +24,7 @@ const SubscriptionCard = ({
   onPress,
   onCancelPress,
 }: SubscriptionCardProps) => {
+  const fallback: string = "Not Provided";
   return (
     <Pressable
       onPress={onPress}
@@ -42,7 +43,7 @@ const SubscriptionCard = ({
             <Text numberOfLines={1} ellipsizeMode="tail" className="sub-meta">
               {category?.trim() ||
                 plan?.trim() ||
-                (renewalDate ? frormatSubscriptionDateTime(renewalDate) : "")}
+                (renewalDate ? formatSubscriptionDateTime(renewalDate) : "")}
             </Text>
           </View>
         </View>
@@ -60,7 +61,7 @@ const SubscriptionCard = ({
               <View className="sub-row-copy">
                 <Text className="sub-label">Payment:</Text>
                 <Text className="sub-value" numberOfLines={1}>
-                  {paymentMethod?.trim()}
+                  {paymentMethod?.trim() || fallback}
                 </Text>
               </View>
             </View>
@@ -69,7 +70,7 @@ const SubscriptionCard = ({
               <View className="sub-row-copy">
                 <Text className="sub-label">Category:</Text>
                 <Text className="sub-value" numberOfLines={1}>
-                  {category?.trim() || plan?.trim()}
+                  {category?.trim() || plan?.trim() || fallback}
                 </Text>
               </View>
             </View>
@@ -78,7 +79,7 @@ const SubscriptionCard = ({
               <View className="sub-row-copy">
                 <Text className="sub-label">Started:</Text>
                 <Text className="sub-value" numberOfLines={1}>
-                  {startDate ? frormatSubscriptionDateTime(startDate) : ""}
+                  {startDate ? formatSubscriptionDateTime(startDate) : fallback}
                 </Text>
               </View>
             </View>
@@ -87,7 +88,9 @@ const SubscriptionCard = ({
               <View className="sub-row-copy">
                 <Text className="sub-label">Renewal date:</Text>
                 <Text className="sub-value" numberOfLines={1}>
-                  {renewalDate ? frormatSubscriptionDateTime(renewalDate) : ""}
+                  {renewalDate
+                    ? formatSubscriptionDateTime(renewalDate)
+                    : fallback}
                 </Text>
               </View>
             </View>
@@ -96,7 +99,7 @@ const SubscriptionCard = ({
               <View className="sub-row-copy">
                 <Text className="sub-label">Status:</Text>
                 <Text className="sub-value" numberOfLines={1}>
-                  {status ? formatStatusLabel(status) : ""}
+                  {status ? formatStatusLabel(status) : fallback}
                 </Text>
               </View>
             </View>

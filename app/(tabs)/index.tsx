@@ -88,7 +88,7 @@ export default function App() {
               </Svg>
               <Text className="home-balance-label">Balance</Text>
               <Text className="home-balance-amount">
-                {formatCurrency(HOME_BALANCE.amount)}
+                {formatCurrency(HOME_BALANCE.amount, HOME_BALANCE.currency)}
               </Text>
               <View className="items-end">
                 <View className="items-start">

@@ -13,6 +13,7 @@ export const HOME_USER = {
 
 export const HOME_BALANCE = {
   amount: 2489.48,
+  currency: "EUR",
   nextRenewalDate: "2026-03-18T09:00:00.000Z",
 };
 
