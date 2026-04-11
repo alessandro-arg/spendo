@@ -1,4 +1,10 @@
-import { HOME_BALANCE, HOME_USER } from "@/constants/data";
+import ListHeading from "@/components/ListHeading";
+import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
+import {
+  HOME_BALANCE,
+  HOME_USER,
+  UPCOMING_SUBSCRIPTIONS,
+} from "@/constants/data";
 import { icons } from "@/constants/icons";
 import images from "@/constants/images";
 import "@/global.css";
@@ -6,7 +12,7 @@ import { formatCurrency } from "@/lib/utils";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
-import { Image, Text, View } from "react-native";
+import { FlatList, Image, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 
@@ -78,12 +84,24 @@ export default function App() {
         </Text>
         <View className="items-end">
           <View className="items-start">
-            <Text className="home-balance-date-lable">Next payment</Text>
+            <Text className="home-balance-date-label">Next payment</Text>
             <Text className="home-balance-date">
               {dayjs(HOME_BALANCE.nextRenewalDate).format("DD/MM")}
             </Text>
           </View>
         </View>
+      </View>
+
+      <View>
+        <ListHeading title="Upcoming" />
+        <FlatList
+          data={UPCOMING_SUBSCRIPTIONS}
+          renderItem={({ item }) => <UpcomingSubscriptionCard {...item} />}
+        />
+      </View>
+
+      <View>
+        <ListHeading title="All Subscriptions" />
       </View>
     </SafeAreaView>
   );

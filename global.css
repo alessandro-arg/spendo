@@ -136,11 +136,11 @@
   }
 
   .list-action {
-    @apply rounded-full border border-border px-4 py-1;
+    @apply rounded-full border border-border px-3 py-1;
   }
 
   .list-action-text {
-    @apply text-lg font-sans-semibold text-primary;
+    @apply text-base font-sans-semibold text-primary;
   }
 
   .upcoming-card {
