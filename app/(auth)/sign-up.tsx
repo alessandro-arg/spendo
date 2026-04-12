@@ -3,6 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { type Href, Link, useRouter } from "expo-router";
 import React from "react";
 import {
+  Linking,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -137,7 +138,7 @@ export default function SignUpPage() {
 
           const url = decorateUrl("/");
           if (url.startsWith("http")) {
-            window.location.href = url;
+            Linking.openURL(url);
           } else {
             router.push(url as Href);
           }

@@ -3,7 +3,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { type Href, Link, useRouter } from "expo-router";
 import React from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -101,14 +103,14 @@ export default function SignInPage() {
 
           const url = decorateUrl("/");
           if (url.startsWith("http")) {
-            window.location.href = url;
+            Linking.openURL(url);
           } else {
             router.push(url as Href);
           }
         },
       });
     } else if (signIn.status === "needs_second_factor") {
-      // Handle MFA
+      Alert.alert("MFA Required", "Please complete two-factor authentication.");
     } else if (signIn.status === "needs_client_trust") {
       const emailCodeFactor = signIn.supportedSecondFactors.find(
         (factor) => factor.strategy === "email_code",

@@ -72,14 +72,6 @@ export default function OnboardingScreen({
   const { isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
 
-  if (!isLoaded) {
-    return null;
-  }
-
-  if (isSignedIn) {
-    return <Redirect href="/(tabs)" />;
-  }
-
   // Animations
   const cardAnim = useRef(new Animated.Value(0)).current;
   const contentAnim = useRef(new Animated.Value(0)).current;
@@ -106,7 +98,15 @@ export default function OnboardingScreen({
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [isLoaded, isSignedIn, cardAnim, contentAnim, btnsAnim]);
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
 
   const fadeUp = (anim: Animated.Value) => ({
     opacity: anim,

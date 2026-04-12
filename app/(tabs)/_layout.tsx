@@ -32,8 +32,7 @@ const TabLayout = () => {
     <Tabs
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "#121212" },
-        sceneContainerStyle: { backgroundColor: "#121212" },
+        sceneStyle: { backgroundColor: "#121212" },
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
