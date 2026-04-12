@@ -177,6 +177,9 @@ export default function SignInPage() {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    autoComplete="off"
+                    textContentType="none"
+                    importantForAutofill="no"
                     onFocus={() => setEmailFocused(true)}
                     onBlur={handleEmailBlur}
                   />
@@ -211,6 +214,10 @@ export default function SignInPage() {
                     secureTextEntry={!showPassword}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    autoComplete="off"
+                    textContentType="none"
+                    importantForAutofill="no"
+                    style={{ backgroundColor: "transparent", color: "white" }}
                     onFocus={() => setPasswordFocused(true)}
                     onBlur={handlePasswordBlur}
                   />

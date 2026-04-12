@@ -355,6 +355,26 @@
     @apply absolute top-5 left-5 z-10 w-11 h-11 rounded-full border border-border flex items-center justify-center;
   }
 
+  .terms-container {
+    @apply flex flex-row items-center gap-3 mx-2;
+  }
+
+  .terms-checkbox-box {
+    @apply w-5 h-5 rounded-sm border border-border bg-background flex items-center justify-center;
+  }
+
+  .terms-checkbox-box-agreed {
+    @apply bg-accent-action border-accent;
+  }
+
+  .terms-text {
+    @apply flex-1 text-muted-foreground text-[13px] font-sans-light;
+  }
+
+  .terms-link {
+    @apply text-accent-action;
+  }
+
   .modal-overlay {
     @apply flex-1 bg-black/50;
   }
