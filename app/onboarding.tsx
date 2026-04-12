@@ -1,15 +1,17 @@
+import { useAuth } from "@clerk/expo";
 import { LinearGradient } from "expo-linear-gradient";
+import { Redirect, useRouter } from "expo-router";
 import React, { useEffect, useRef } from "react";
 import {
   Animated,
   Dimensions,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -67,6 +69,17 @@ type OnboardingScreenProps = {
 export default function OnboardingScreen({
   navigation,
 }: OnboardingScreenProps) {
+  const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+
+  if (!isLoaded) {
+    return null;
+  }
+
+  if (isSignedIn) {
+    return <Redirect href="/(tabs)" />;
+  }
+
   // Animations
   const cardAnim = useRef(new Animated.Value(0)).current;
   const contentAnim = useRef(new Animated.Value(0)).current;
@@ -114,7 +127,7 @@ export default function OnboardingScreen({
       {/* Skip */}
       <TouchableOpacity
         style={styles.skipBtn}
-        onPress={() => navigation?.navigate?.("Home")}
+        onPress={() => router.push("/(tabs)")}
         activeOpacity={0.6}
       >
         <Text style={styles.skipText}>Skip</Text>
@@ -157,7 +170,7 @@ export default function OnboardingScreen({
         <TouchableOpacity
           style={styles.btnPrimary}
           activeOpacity={0.85}
-          onPress={() => navigation?.navigate?.("Register")}
+          onPress={() => router.push("/(auth)/sign-up")}
         >
           <Text style={styles.btnPrimaryText}>Create Account →</Text>
         </TouchableOpacity>
@@ -165,7 +178,7 @@ export default function OnboardingScreen({
         <TouchableOpacity
           style={styles.btnGhost}
           activeOpacity={0.7}
-          onPress={() => navigation?.navigate?.("Login")}
+          onPress={() => router.push("/(auth)/sign-in")}
         >
           <Text style={styles.btnGhostText}>Log In</Text>
         </TouchableOpacity>
