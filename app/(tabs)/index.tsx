@@ -4,13 +4,13 @@ import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import {
   HOME_BALANCE,
   HOME_SUBSCRIPTIONS,
-  HOME_USER,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
 import { icons } from "@/constants/icons";
 import images from "@/constants/images";
 import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
+import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
@@ -21,6 +21,7 @@ import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 const SafeAreaView = styled(RNSafeAreaView);
 
 export default function App() {
+  const { user } = useUser();
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
   >(null);
@@ -33,10 +34,17 @@ export default function App() {
           <>
             <View className="home-header">
               <View className="home-user">
-                <Image source={images.avatar} className="home-avatar" />
+                <Image
+                  source={
+                    user?.imageUrl ? { uri: user.imageUrl } : images.avatar
+                  }
+                  className="home-avatar"
+                />
                 <View className="flex-1 flex-col">
                   <Text className="home-user-time">Good morning,</Text>
-                  <Text className="home-user-name">{HOME_USER.name}</Text>
+                  <Text className="home-user-name">
+                    {user?.firstName || user?.username || "User"}
+                  </Text>
                 </View>
 
                 <Image source={icons.add} className="home-add-icon" />
