@@ -1,6 +1,7 @@
 import { useSignIn } from "@clerk/expo";
 import { Ionicons } from "@expo/vector-icons";
 import { type Href, Link, useRouter } from "expo-router";
+import { styled } from "nativewind";
 import React from "react";
 import {
   Alert,
@@ -9,27 +10,13 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
-const COLORS = {
-  bg: "#0F0F0F",
-  surface: "#1A1A1A",
-  surfaceLight: "#2A2A2A",
-  accent: "#4A90E2",
-  accentLight: "#60A5FA",
-  text: "#F8FAFC",
-  textSecondary: "#94A3B8",
-  border: "#2D333F",
-  borderFocused: "#4A90E2",
-  error: "#EF4444",
-  glow: "rgba(74, 144, 226, 0.08)",
-  glowMid: "rgba(74, 144, 226, 0.12)",
-};
+const SafeAreaView = styled(RNSafeAreaView);
 
 const validateEmail = (email: string): string | null => {
   if (!email) return "Email is required";
@@ -55,6 +42,8 @@ export default function SignInPage() {
   const [passwordFocused, setPasswordFocused] = React.useState(false);
   const [emailError, setEmailError] = React.useState<string | null>(null);
   const [passwordError, setPasswordError] = React.useState<string | null>(null);
+  const [hasSubmitted, setHasSubmitted] = React.useState(false);
+  const isDisabled = !email || !password || fetchStatus === "fetching";
 
   const handleEmailBlur = () => {
     setEmailFocused(false);
@@ -69,6 +58,8 @@ export default function SignInPage() {
   };
 
   const handleSubmit = async () => {
+    setHasSubmitted(true);
+
     const emailErr = validateEmail(email);
     const passwordErr = validatePassword(password);
 
@@ -125,61 +116,63 @@ export default function SignInPage() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.bg }}>
+    <SafeAreaView className="auth-safe-area">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
+        className="flex-1"
       >
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          className="flex-1"
+          contentContainerClassName="grow"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.content}>
+          <View className="auth-content">
             {/* ── Header ── */}
-            <View style={styles.header}>
+            <View className="auth-header">
               {/* Wallet icon with multi-layer glow */}
-              <View style={styles.iconContainer}>
-                {/* Outer ambient glow */}
-                <View style={styles.outerGlow} />
-                {/* Mid glow ring */}
-                <View style={styles.midGlow} />
+              <View className="auth-icon-container">
                 {/* Icon tile */}
-                <View style={styles.icon}>
-                  <Ionicons name="wallet" size={36} color={COLORS.accent} />
+                <View
+                  className="auth-icon"
+                  style={{
+                    shadowColor: "#4a90e2",
+                    shadowOffset: { width: 0, height: 0 },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 15,
+                  }}
+                >
+                  <Ionicons name="wallet" size={34} color="#4a90e2" />
                 </View>
               </View>
 
-              <Text style={styles.title}>Welcome Back</Text>
-              <Text style={styles.subtitle}>
-                Log in to continue managing your subscriptions
+              <Text className="auth-title">Welcome Back</Text>
+              <Text className="auth-subtitle">
+                Log in to track your subscriptions
               </Text>
             </View>
 
             {/* ── Form ── */}
-            <View style={styles.form}>
+            <View className="auth-form">
               {/* Email */}
               <View>
                 <View
-                  style={[
-                    styles.inputContainer,
-                    {
-                      borderColor: emailError
-                        ? COLORS.error
-                        : emailFocused
-                          ? COLORS.borderFocused
-                          : COLORS.border,
-                    },
-                  ]}
+                  className={`auth-input-container ${
+                    emailError
+                      ? "border-destructive!"
+                      : emailFocused
+                        ? "border-accent!"
+                        : "border-border"
+                  }`}
                 >
                   <TextInput
-                    style={styles.input}
+                    className="auth-input"
                     placeholder="Email Address"
-                    placeholderTextColor={COLORS.textSecondary}
                     value={email}
                     onChangeText={(text) => {
                       setEmail(text);
                       setEmailError(null);
+                      setHasSubmitted(false);
                     }}
                     keyboardType="email-address"
                     autoCapitalize="none"
@@ -188,33 +181,32 @@ export default function SignInPage() {
                     onBlur={handleEmailBlur}
                   />
                 </View>
-                {emailError && (
-                  <Text style={styles.fieldError}>{emailError}</Text>
-                )}
+                <View className="h-6">
+                  {emailError && (
+                    <Text className="auth-error">{emailError}</Text>
+                  )}
+                </View>
               </View>
 
               {/* Password */}
               <View>
                 <View
-                  style={[
-                    styles.passwordContainer,
-                    {
-                      borderColor: passwordError
-                        ? COLORS.error
-                        : passwordFocused
-                          ? COLORS.borderFocused
-                          : COLORS.border,
-                    },
-                  ]}
+                  className={`auth-password-container ${
+                    passwordError
+                      ? "border-destructive!"
+                      : passwordFocused
+                        ? "border-accent!"
+                        : "border-border"
+                  }`}
                 >
                   <TextInput
-                    style={styles.passwordInput}
+                    className={`flex-1 auth-input`}
                     placeholder="Password"
-                    placeholderTextColor={COLORS.textSecondary}
                     value={password}
                     onChangeText={(text) => {
                       setPassword(text);
                       setPasswordError(null);
+                      setHasSubmitted(false);
                     }}
                     secureTextEntry={!showPassword}
                     autoCapitalize="none"
@@ -224,78 +216,79 @@ export default function SignInPage() {
                   />
                   <Pressable
                     onPress={() => setShowPassword(!showPassword)}
-                    style={styles.eyeButton}
+                    className="auth-eye"
                   >
                     <Ionicons
                       name={showPassword ? "eye-outline" : "eye-off-outline"}
                       size={20}
-                      color={COLORS.textSecondary}
+                      color="#9ca3af"
                     />
                   </Pressable>
                 </View>
-                {passwordError && (
-                  <Text style={styles.fieldError}>{passwordError}</Text>
-                )}
+                <View className="h-6">
+                  {passwordError && (
+                    <Text className="auth-error">{passwordError}</Text>
+                  )}
+                </View>
               </View>
 
-              {/* Forgot Password */}
-              <Pressable style={styles.forgotButton}>
-                <Text style={styles.forgotText}>Forgot Password?</Text>
-              </Pressable>
+              {/* Errors */}
+              {hasSubmitted && !isDisabled && (
+                <View>
+                  {errors.fields.identifier && (
+                    <Text className="auth-error">
+                      {errors.fields.identifier.message}
+                    </Text>
+                  )}
+                  {errors.fields.password && (
+                    <Text className="auth-error">
+                      {errors.fields.password.message}
+                    </Text>
+                  )}
+                </View>
+              )}
 
-              {/* Error Messages */}
-              {errors.fields.identifier && (
-                <Text style={styles.error}>
-                  {errors.fields.identifier.message}
-                </Text>
-              )}
-              {errors.fields.password && (
-                <Text style={styles.error}>
-                  {errors.fields.password.message}
-                </Text>
-              )}
+              {/* Forgot Password */}
+              {/* <Pressable style={styles.forgotButton}>
+                <Text style={styles.forgotText}>Forgot Password?</Text>
+              </Pressable> */}
             </View>
 
             {/* ── Primary CTA ── */}
             <Pressable
-              style={({ pressed }) => [
-                styles.primaryButton,
-                (!email || !password || fetchStatus === "fetching") &&
-                  styles.buttonDisabled,
-                pressed && styles.buttonPressed,
-              ]}
+              className={`auth-button ${isDisabled && "bg-btn-primary-bg/50!"}`}
               onPress={handleSubmit}
-              disabled={!email || !password || fetchStatus === "fetching"}
+              disabled={isDisabled}
             >
-              <Text style={styles.primaryButtonText}>
+              <Text className="auth-button-text">
                 {fetchStatus === "fetching" ? "Logging in..." : "Log In"}
               </Text>
             </Pressable>
 
             {/* ── Divider ── */}
-            <View style={styles.divider}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>Or continue with</Text>
-              <View style={styles.dividerLine} />
+            <View className="auth-divider-row">
+              <View className="auth-divider-line" />
+              <Text className="auth-divider-text">Or continue with</Text>
+              <View className="auth-divider-line" />
             </View>
 
             {/* ── Social Buttons ── */}
-            <View style={styles.socialButtons}>
-              <Pressable style={styles.socialButton}>
-                <Text style={styles.googleText}>G</Text>
+            <View className="auth-social-buttons">
+              <Pressable className="auth-social-btn">
+                <Ionicons name="logo-google" size={26} color="white" />
               </Pressable>
 
-              <Pressable style={styles.socialButton}>
-                <Ionicons name="logo-apple" size={22} color={COLORS.text} />
+              <Pressable className="auth-social-btn">
+                <Ionicons name="logo-apple" size={28} color="white" />
               </Pressable>
             </View>
 
             {/* ── Sign Up Footer ── */}
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>Don't have an account? </Text>
+            <View className="auth-footer-row">
+              <Text className="auth-footer-text">Don't have an account? </Text>
               <Link href="/(auth)/sign-up" asChild>
                 <Pressable>
-                  <Text style={styles.footerLink}>Sign Up</Text>
+                  <Text className="auth-footer-link">Sign Up</Text>
                 </Pressable>
               </Link>
             </View>
@@ -305,202 +298,3 @@ export default function SignInPage() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.bg,
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 64,
-    paddingBottom: 40,
-    justifyContent: "space-between",
-  },
-  header: {
-    alignItems: "center",
-    marginBottom: 40,
-  },
-  iconContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 32,
-  },
-  outerGlow: {
-    position: "absolute",
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: COLORS.glow,
-  },
-  midGlow: {
-    position: "absolute",
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: COLORS.glowMid,
-  },
-  icon: {
-    width: 80,
-    height: 80,
-    borderRadius: 16,
-    backgroundColor: COLORS.surface,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "rgba(74, 144, 226, 0.3)",
-    shadowColor: COLORS.accent,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 20,
-    elevation: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: COLORS.text,
-    marginBottom: 8,
-    textAlign: "center",
-    fontFamily: "sans-bold",
-    letterSpacing: 0.3,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: COLORS.textSecondary,
-    textAlign: "center",
-    fontFamily: "sans-regular",
-  },
-  form: {
-    gap: 16,
-    marginBottom: 8,
-  },
-  inputContainer: {
-    borderRadius: 16,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    paddingHorizontal: 16,
-  },
-  input: {
-    color: COLORS.text,
-    fontSize: 16,
-    paddingVertical: 16,
-    fontFamily: "sans-regular",
-  },
-  passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 16,
-    backgroundColor: COLORS.surface,
-    borderWidth: 1,
-    paddingHorizontal: 16,
-  },
-  passwordInput: {
-    flex: 1,
-    color: COLORS.text,
-    fontSize: 16,
-    paddingVertical: 16,
-    fontFamily: "sans-regular",
-  },
-  eyeButton: {
-    paddingLeft: 8,
-  },
-  forgotButton: {
-    alignSelf: "flex-end",
-  },
-  forgotText: {
-    color: COLORS.accent,
-    fontSize: 14,
-    fontFamily: "sans-medium",
-  },
-  error: {
-    color: COLORS.error,
-    fontSize: 12,
-    marginTop: -8,
-  },
-  fieldError: {
-    color: COLORS.error,
-    fontSize: 12,
-    marginTop: 6,
-    marginLeft: 4,
-    fontFamily: "sans-regular",
-  },
-  primaryButton: {
-    backgroundColor: COLORS.accentLight,
-    borderRadius: 16,
-    paddingVertical: 16,
-    alignItems: "center",
-    marginTop: 16,
-  },
-  primaryButtonText: {
-    color: COLORS.bg,
-    fontSize: 16,
-    fontFamily: "sans-semibold",
-    letterSpacing: 0.3,
-  },
-  buttonPressed: {
-    opacity: 0.8,
-  },
-  buttonDisabled: {
-    opacity: 0.5,
-  },
-  divider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 32,
-    gap: 16,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: COLORS.border,
-  },
-  dividerText: {
-    color: COLORS.textSecondary,
-    fontSize: 14,
-    fontFamily: "sans-regular",
-  },
-  socialButtons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 16,
-  },
-  socialButton: {
-    width: 64,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: COLORS.surface,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: COLORS.border,
-  },
-  googleText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: COLORS.text,
-    lineHeight: 22,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  footerText: {
-    color: COLORS.textSecondary,
-    fontSize: 14,
-    fontFamily: "sans-regular",
-  },
-  footerLink: {
-    color: COLORS.accent,
-    fontSize: 14,
-    fontFamily: "sans-semibold",
-  },
-});

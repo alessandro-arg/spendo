@@ -1,9 +1,12 @@
 import { useAuth, useSignUp } from "@clerk/expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { type Href, Link, useRouter } from "expo-router";
+import { styled } from "nativewind";
 import React from "react";
 import {
+  KeyboardAvoidingView,
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,6 +14,10 @@ import {
   TextInput,
   View,
 } from "react-native";
+
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+
+const SafeAreaView = styled(RNSafeAreaView);
 
 const COLORS = {
   bg: "#0F0F0F",
@@ -62,6 +69,7 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [code, setCode] = React.useState("");
+  const [inputFocused, setInputFocused] = React.useState(false);
   const [agreedToTerms, setAgreedToTerms] = React.useState(false);
 
   const [emailError, setEmailError] = React.useState<string | null>(null);
@@ -159,72 +167,105 @@ export default function SignUpPage() {
     signUp.missingFields.length === 0
   ) {
     return (
-      <View style={styles.container}>
-        <Pressable style={styles.backButton} onPress={() => router.back()}>
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={24}
-            color={COLORS.text}
-          />
-        </Pressable>
-
-        <ScrollView
-          contentContainerStyle={styles.content}
-          showsVerticalScrollIndicator={false}
+      <SafeAreaView className="auth-safe-area">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          className="flex-1"
         >
-          <View style={styles.iconContainer}>
-            <View style={styles.icon}>
-              <MaterialCommunityIcons
-                name="email-check"
-                size={32}
-                color={COLORS.accent}
-              />
+          <ScrollView
+            className="flex-1"
+            contentContainerClassName="grow"
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View className="auth-code-content">
+              <Pressable
+                className="auth-arrow-back"
+                onPress={() => router.back()}
+              >
+                <MaterialCommunityIcons
+                  name="arrow-left"
+                  size={24}
+                  color={COLORS.text}
+                />
+              </Pressable>
+
+              <View className="auth-header">
+                <View className="auth-icon-container">
+                  <View
+                    className="auth-icon"
+                    style={{
+                      shadowColor: "#4a90e2",
+                      shadowOffset: { width: 0, height: 0 },
+                      shadowOpacity: 0.3,
+                      shadowRadius: 15,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="email-check"
+                      size={34}
+                      color="#4a90e2"
+                    />
+                  </View>
+                </View>
+
+                <Text className="auth-title">Verify your email</Text>
+                <Text className="auth-subtitle">
+                  We've sent a verification code to {emailAddress}
+                </Text>
+              </View>
+
+              <View className="auth-form">
+                <View
+                  className={`auth-input-container ${
+                    inputFocused ? "border-accent!" : "border-border"
+                  }`}
+                >
+                  <TextInput
+                    className="auth-input"
+                    value={code}
+                    placeholder="Verification code"
+                    onChangeText={(code) => setCode(code)}
+                    onFocus={() => setInputFocused(true)}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View className="h-4">
+                  {errors.fields.code && (
+                    <Text className="auth-error">
+                      {errors.fields.code.message}
+                    </Text>
+                  )}
+                </View>
+
+                <Pressable
+                  className={`auth-button ${
+                    fetchStatus === "fetching" ||
+                    (!code && "bg-btn-primary-bg/50!")
+                  }`}
+                  onPress={handleVerify}
+                  disabled={fetchStatus === "fetching" || !code}
+                >
+                  <Text className="auth-button-text">
+                    {fetchStatus === "fetching"
+                      ? "Verifying..."
+                      : "Verify Email"}
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View className="auth-footer-row">
+                <Text className="auth-footer-text">
+                  Didn't receive a code?{" "}
+                </Text>
+                <Pressable onPress={() => signUp.verifications.sendEmailCode()}>
+                  <Text className="auth-footer-link">Resend</Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
-
-          <Text style={styles.title}>Verify your email</Text>
-          <Text style={styles.subtitle}>
-            We've sent a verification code to {emailAddress}
-          </Text>
-
-          <View style={styles.formSection}>
-            <TextInput
-              style={styles.input}
-              value={code}
-              placeholder="Verification code"
-              placeholderTextColor={COLORS.textSecondary}
-              onChangeText={(code) => setCode(code)}
-              keyboardType="numeric"
-            />
-            {errors.fields.code && (
-              <Text style={styles.error}>{errors.fields.code.message}</Text>
-            )}
-
-            <Pressable
-              style={({ pressed }) => [
-                styles.button,
-                fetchStatus === "fetching" && styles.buttonDisabled,
-                pressed && styles.buttonPressed,
-              ]}
-              onPress={handleVerify}
-              disabled={fetchStatus === "fetching"}
-            >
-              <Text style={styles.buttonText}>
-                {fetchStatus === "fetching" ? "Verifying..." : "Verify Email"}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={styles.linkButton}
-              onPress={() => signUp.verifications.sendEmailCode()}
-            >
-              <Text style={styles.linkButtonText}>
-                Didn't receive a code? Resend
-              </Text>
-            </Pressable>
-          </View>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 

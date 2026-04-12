@@ -259,100 +259,68 @@
     @apply flex-1 bg-background;
   }
 
-  .auth-scroll {
-    @apply flex-1;
-  }
-
   .auth-content {
-    @apply grow px-5 pb-10 pt-8;
+    @apply flex-1 px-6 pt-14 pb-10 justify-between;
   }
 
-  .auth-brand-block {
-    @apply mt-2 items-center;
+  .auth-code-content {
+    @apply flex-1 px-6 pt-14 pb-10;
   }
 
-  .auth-logo-wrap {
-    @apply mb-7 flex-row items-center gap-3;
+  .auth-header {
+    @apply flex items-center mb-10;
   }
 
-  .auth-logo-mark {
-    @apply relative size-14 items-center justify-center rounded-2xl bg-accent;
+  .auth-icon-container {
+    @apply flex items-center justify-center mb-8;
   }
 
-  .auth-logo-mark-text {
-    @apply text-2xl font-sans-extrabold text-background;
-  }
-
-  .auth-wordmark {
-    @apply text-3xl font-sans-extrabold text-primary;
-  }
-
-  .auth-wordmark-sub {
-    @apply -mt-1 text-xs font-sans-semibold uppercase tracking-[1px] text-muted-foreground;
+  .auth-icon {
+    @apply w-20 h-20 rounded-3xl bg-background flex items-center justify-center border border-border;
   }
 
   .auth-title {
-    @apply text-3xl font-sans-bold text-primary;
+    @apply text-2xl font-sans-bold text-primary mb-2 text-center tracking-tight;
   }
 
   .auth-subtitle {
-    @apply mt-2 max-w-[320px] text-center text-base font-sans-medium text-muted-foreground;
-  }
-
-  .auth-card {
-    @apply mt-8 rounded-3xl border border-border bg-card p-5;
+    @apply text-sm max-w-[320px] font-sans-medium text-muted-foreground mb-2 text-center tracking-tight;
   }
 
   .auth-form {
-    @apply gap-4;
+    @apply gap-2 mb-2;
   }
 
-  .auth-field {
-    @apply gap-2;
+  .auth-input-container {
+    @apply rounded-2xl border border-border bg-card px-4 text-base font-sans-medium;
   }
 
-  .auth-label {
-    @apply text-sm font-sans-semibold text-primary;
+  .auth-password-container {
+    @apply flex flex-row items-center rounded-2xl border border-border bg-card px-4 text-base font-sans-medium;
   }
 
   .auth-input {
-    @apply rounded-2xl border border-border bg-card px-4 py-4 text-base font-sans-medium text-primary;
-  }
-
-  .auth-input-error {
-    @apply border-destructive;
+    @apply text-primary text-lg py-4 font-sans-medium placeholder:text-muted-foreground;
   }
 
   .auth-error {
-    @apply text-xs font-sans-medium text-destructive;
+    @apply text-sm font-sans-medium text-destructive ml-2 mt-1.5;
   }
 
-  .auth-helper {
-    @apply text-sm font-sans-medium text-muted-foreground;
+  .auth-eye {
+    @apply pl-2;
   }
 
   .auth-button {
-    @apply mt-1 items-center rounded-2xl bg-btn-primary-bg py-4;
-  }
-
-  .auth-button-disabled {
-    @apply bg-btn-primary-bg/45;
+    @apply items-center rounded-2xl bg-btn-primary-bg mb-4;
   }
 
   .auth-button-text {
-    @apply text-base font-sans-bold text-btn-primary-text;
-  }
-
-  .auth-secondary-button {
-    @apply items-center rounded-2xl border border-accent/30 bg-accent/10 py-3;
-  }
-
-  .auth-secondary-button-text {
-    @apply text-sm font-sans-semibold text-accent;
+    @apply text-btn-primary-text py-4 text-base font-sans-semibold tracking-tight;
   }
 
   .auth-divider-row {
-    @apply my-4 flex-row items-center gap-3;
+    @apply my-8 flex flex-row items-center gap-4;
   }
 
   .auth-divider-line {
@@ -360,19 +328,31 @@
   }
 
   .auth-divider-text {
-    @apply text-[11px] font-sans-semibold uppercase tracking-[1px] text-muted-foreground;
+    @apply text-sm font-sans-medium tracking-tight text-muted-foreground;
   }
 
-  .auth-link-row {
-    @apply mt-5 flex-row items-center justify-center gap-1;
+  .auth-social-buttons {
+    @apply flex flex-row justify-center gap-4;
   }
 
-  .auth-link-copy {
+  .auth-social-btn {
+    @apply w-16 h-16 rounded-2xl bg-card flex items-center justify-center border border-border;
+  }
+
+  .auth-footer-row {
+    @apply mt-auto flex flex-row items-center justify-center gap-1;
+  }
+
+  .auth-footer-text {
     @apply text-sm font-sans-medium text-muted-foreground;
   }
 
-  .auth-link {
-    @apply text-sm font-sans-bold text-accent;
+  .auth-footer-link {
+    @apply text-base font-sans-semibold text-accent;
+  }
+
+  .auth-arrow-back {
+    @apply absolute top-5 left-5 z-10 w-11 h-11 rounded-full border border-border flex items-center justify-center;
   }
 
   .modal-overlay {
