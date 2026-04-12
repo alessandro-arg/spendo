@@ -41,7 +41,21 @@ export default function CodeVerification({
   onGoBack,
 }: CodeVerificationProps) {
   const router = useRouter();
+  const [resendStatus, setResendStatus] = React.useState<
+    "idle" | "sending" | "sent"
+  >("idle");
 
+  const handleResend = async () => {
+    try {
+      setResendStatus("sending");
+      await signUp.verifications.sendEmailCode();
+      setResendStatus("sent");
+      setTimeout(() => setResendStatus("idle"), 30000);
+    } catch (error) {
+      console.error("Failed to resend code:", error);
+      setResendStatus("idle");
+    }
+  };
   const handleBackPress = async () => {
     await onGoBack();
     router.back();
@@ -138,8 +152,18 @@ export default function CodeVerification({
 
             <View className="auth-footer-row">
               <Text className="auth-footer-text">Didn't receive a code? </Text>
-              <Pressable onPress={() => signUp.verifications.sendEmailCode()}>
-                <Text className="auth-footer-link">Resend</Text>
+              <Pressable
+                onPress={handleResend}
+                disabled={resendStatus !== "idle"}
+              >
+                <Text className="auth-footer-link">
+                  {" "}
+                  {resendStatus === "sending"
+                    ? "Sending..."
+                    : resendStatus === "sent"
+                      ? "Sent!"
+                      : "Resend"}
+                </Text>
               </Pressable>
             </View>
           </View>

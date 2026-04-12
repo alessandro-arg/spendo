@@ -125,6 +125,8 @@ export default function SignUpPage() {
     const { error } = await signUp.password({
       emailAddress,
       password,
+      firstName: fullName.split(" ")[0] || undefined,
+      lastName: fullName.split(" ").slice(1).join(" ") || undefined,
     });
     if (error) {
       console.error(JSON.stringify(error, null, 2));
@@ -233,7 +235,7 @@ export default function SignUpPage() {
 
               <Text className="auth-title">Create Account</Text>
               <Text className="auth-subtitle">
-                Join us to start managing yor subscriptions
+                Join us to start managing your subscriptions
               </Text>
             </View>
 
