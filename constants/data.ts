@@ -58,7 +58,7 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     currency: "USD",
     billing: "monthly",
     renewalDate: "2026-03-20T10:00:00.000Z",
-    color: "#f5c54270",
+    color: "#ff646790",
   },
   {
     id: "github-pro",

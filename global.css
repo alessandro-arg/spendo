@@ -88,19 +88,19 @@
   }
 
   .home-avatar {
-    @apply size-12 rounded-full;
+    @apply size-11 rounded-full;
   }
 
   .home-user-name {
-    @apply ml-4 text-xl font-sans-bold text-primary;
+    @apply ml-4 text-xl font-sans-semibold text-primary;
   }
 
   .home-user-time {
-    @apply ml-4 text-lg font-sans-medium text-muted-foreground;
+    @apply ml-4 text-base font-sans-medium text-muted-foreground;
   }
 
   .home-add-icon {
-    @apply size-12 p-3 rounded-full bg-accent-action;
+    @apply size-11 p-3 rounded-full bg-accent-action;
   }
 
   .home-balance-card {

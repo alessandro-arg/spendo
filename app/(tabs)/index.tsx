@@ -40,7 +40,7 @@ export default function App() {
                   }
                   className="home-avatar"
                 />
-                <View className="flex-1 flex-col">
+                <View className="flex-1">
                   <Text className="home-user-time">Good morning,</Text>
                   <Text className="home-user-name">
                     {user?.firstName || user?.username || "User"}
