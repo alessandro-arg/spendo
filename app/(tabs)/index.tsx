@@ -1,3 +1,4 @@
+import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
@@ -14,7 +15,7 @@ import { useUser } from "@clerk/expo";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Pressable, Text, View } from "react-native";
 import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 
@@ -26,9 +27,21 @@ export default function App() {
     string | null
   >(null);
   const [cardSize, setCardSize] = useState({ width: 0, height: 0 });
+  const [subscriptions, setSubscriptions] =
+    useState<Subscription[]>(HOME_SUBSCRIPTIONS);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleCreateSubscription = (subscription: Subscription) => {
+    setSubscriptions((current) => [subscription, ...current]);
+  };
 
   return (
     <SafeAreaView className="flex-1 p-5 bg-background">
+      <CreateSubscriptionModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onCreate={handleCreateSubscription}
+      />
       <FlatList
         ListHeaderComponent={() => (
           <>
@@ -47,7 +60,12 @@ export default function App() {
                   </Text>
                 </View>
 
-                <Image source={icons.add} className="home-add-icon" />
+                <Pressable
+                  className="home-add-icon"
+                  onPress={() => setIsModalVisible(true)}
+                >
+                  <Image source={icons.add} className="size-5" />
+                </Pressable>
               </View>
             </View>
 
@@ -130,7 +148,7 @@ export default function App() {
             <ListHeading title="All Subscriptions" />
           </>
         )}
-        data={HOME_SUBSCRIPTIONS}
+        data={subscriptions}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <SubscriptionCard

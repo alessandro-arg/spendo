@@ -97,7 +97,7 @@ export default function SubscriptionsScreen() {
     <SafeAreaView className="flex-1 p-5 bg-background">
       {/* Header */}
       <View className="home-header">
-        <View className="flex-row items-center p-5">
+        <View className="flex-row items-center p-5 pb-2">
           <Image
             source={user?.imageUrl ? { uri: user.imageUrl } : images.avatar}
             className="home-avatar"

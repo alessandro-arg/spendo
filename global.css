@@ -375,6 +375,147 @@
     @apply text-accent-action;
   }
 
+  /* ─────────────────────────────────────────────
+   CreateSubscriptionModal (csm-*) classes
+   Add these inside your @layer components block
+   in global.css
+   ───────────────────────────────────────────── */
+
+  /* Sheet container */
+  .csm-container {
+    @apply bg-background rounded-t-3xl overflow-hidden max-h-[92%];
+  }
+
+  /* Header */
+  .csm-header {
+    @apply flex-row items-center justify-between px-5 py-4;
+  }
+
+  .csm-back-btn {
+    @apply size-11 rounded-full border border-border items-center justify-center;
+  }
+
+  .auth-arrow-back {
+    @apply absolute top-5 left-5 z-10 w-11 h-11 rounded-full border border-border flex items-center justify-center;
+  }
+
+  .csm-header-title {
+    @apply text-xl font-sans-bold text-primary;
+  }
+
+  /* Field wrapper */
+  .csm-field {
+    @apply mb-4;
+  }
+
+  /* Section label (uppercase small caps style) */
+  .csm-label {
+    @apply text-xs font-sans-semibold text-muted-foreground mb-2 tracking-wide uppercase;
+  }
+
+  /* Base input row (rounded dark container) */
+  .csm-input-row {
+    @apply flex-row items-center rounded-2xl border border-border bg-card px-4;
+    min-height: 52px;
+  }
+
+  .csm-input-error {
+    @apply border-destructive!;
+  }
+
+  /* Text inside input rows */
+  .csm-input {
+    @apply text-primary text-base font-sans-medium py-3.5 placeholder:text-muted-foreground;
+  }
+
+  .csm-placeholder {
+    @apply text-primary;
+  }
+
+  /* Service icon wrap (small rounded square) */
+  .csm-service-icon-wrap {
+    @apply size-8 rounded-lg bg-muted/10 border border-border items-center justify-center mr-3 -ml-1;
+  }
+
+  /* Picker row (input + chevron) */
+  .csm-picker-row {
+    @apply justify-between;
+  }
+
+  /* Horizontal pair of fields (Amount + Currency) */
+  .csm-row-fields {
+    @apply flex-row gap-3;
+  }
+
+  /* Dropdown overlay */
+  .csm-dropdown {
+    @apply absolute top-full left-0 right-0 z-50 mt-1 rounded-2xl border border-border bg-card overflow-hidden;
+  }
+
+  .csm-dropdown-item {
+    @apply flex-row items-center gap-3 px-4 py-3 border-b border-border;
+  }
+
+  .csm-dropdown-item-active {
+    @apply bg-accent/10;
+  }
+
+  .csm-dropdown-text {
+    @apply text-base font-sans-medium text-muted-foreground;
+  }
+
+  .csm-dropdown-text-active {
+    @apply text-accent;
+  }
+
+  /* Category color dot */
+  .csm-category-dot {
+    @apply size-3 rounded-full;
+  }
+
+  /* Horizontal divider */
+  .csm-divider {
+    @apply h-0.5 bg-border mt-4 mb-6;
+  }
+
+  /* Billing cycle pill row */
+  .csm-billing-row {
+    @apply flex-row rounded-2xl border border-border bg-card p-1 gap-1;
+  }
+
+  .csm-billing-option {
+    @apply flex-1 items-center justify-center rounded-xl py-2.5;
+  }
+
+  .csm-billing-option-active {
+    @apply bg-accent;
+  }
+
+  .csm-billing-text {
+    @apply text-sm font-sans-semibold text-muted-foreground;
+  }
+
+  .csm-billing-text-active {
+    @apply text-background font-sans-bold;
+  }
+
+  /* Bottom action bar */
+  .csm-actions {
+    @apply flex-row items-center gap-3 px-5 pt-4;
+  }
+
+  .csm-delete-btn {
+    @apply size-[52px] rounded-2xl bg-destructive/10 border border-destructive/30 items-center justify-center;
+  }
+
+  .csm-save-btn {
+    @apply items-center justify-center rounded-2xl bg-accent py-4;
+  }
+
+  .csm-save-text {
+    @apply text-background text-base font-sans-bold;
+  }
+
   .modal-overlay {
     @apply flex-1 bg-black/50;
   }
