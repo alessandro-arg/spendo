@@ -47,7 +47,7 @@ export const UPCOMING_SUBSCRIPTIONS: UpcomingSubscription[] = [
 export const HOME_SUBSCRIPTIONS: Subscription[] = [
   {
     id: "adobe-creative-cloud",
-    icon: icons.adobe,
+    icon: "",
     name: "Adobe Creative Cloud",
     plan: "Teams Plan",
     category: "Design",
@@ -57,8 +57,8 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     price: 77.49,
     currency: "USD",
     billing: "monthly",
-    renewalDate: "2026-03-20T10:00:00.000Z",
-    color: "#ff646790",
+    renewalDate: "2026-04-21T10:00:00.000Z",
+    color: "",
   },
   {
     id: "adobe-creative-cloudasddasads",

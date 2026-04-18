@@ -141,7 +141,7 @@ export default function App() {
               </View>
             </View>
 
-            <View className="mb-5">
+            <View className="mb-3">
               <ListHeading title="Upcoming" />
 
               <FlatList
