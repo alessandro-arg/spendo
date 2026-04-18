@@ -1,24 +1,8 @@
-// import { styled } from "nativewind";
-// import React from "react";
-// import { Text } from "react-native";
-// import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
-
-// const SafeAreaView = styled(RNSafeAreaView);
-
-// const Subscriptions = () => {
-//   return (
-//     <SafeAreaView className="flex-1 p-5 bg-background">
-//       <Text>Subscriptions</Text>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default Subscriptions;
-
 import { HOME_SUBSCRIPTIONS } from "@/constants/data";
 import images from "@/constants/images";
 import { useUser } from "@clerk/expo";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
@@ -29,7 +13,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const CATEGORIES = ["All", "Design", "Developer Tools", "AI Tools"] as const;
 type Category = (typeof CATEGORIES)[number];
@@ -72,6 +59,9 @@ export default function SubscriptionsScreen() {
   const [showSearch, setShowSearch] = useState(false);
   const searchInputRef = useRef<TextInput>(null);
 
+  const tabBarHeight = useBottomTabBarHeight();
+  const insets = useSafeAreaInsets();
+
   useEffect(() => {
     if (!showSearch) {
       setSearch("");
@@ -94,95 +84,101 @@ export default function SubscriptionsScreen() {
   ).length;
 
   return (
-    <SafeAreaView className="flex-1 p-5 bg-background">
-      {/* Header */}
-      <View className="home-header">
-        <View className="flex-row items-center p-5 pb-2">
-          <Image
-            source={user?.imageUrl ? { uri: user.imageUrl } : images.avatar}
-            className="home-avatar"
-          />
-          <View className="flex-1">
-            <Text className="home-user-name">All Subscriptions</Text>
-            <Text className="home-user-time">{activeCount} Active</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => setShowSearch(!showSearch)}
-            className="w-11 h-11 rounded-full bg-card flex items-center justify-center border border-border"
-          >
-            <Ionicons name="search" color="white" size={18} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {showSearch && (
-        <>
-          {/* Search */}
-          <View style={styles.searchRow}>
-            <Ionicons name="search" color="#9ca3af" size={18} />
-            <TextInput
-              ref={searchInputRef}
-              style={styles.searchInput}
-              placeholder="Search subscriptions..."
-              className="placeholder:text-muted-foreground"
-              value={search}
-              onChangeText={setSearch}
-            />
-          </View>
-
-          {/* Category Tabs */}
-          <View style={styles.tabsWrapper}>
-            <FlatList
-              horizontal
-              data={CATEGORIES as unknown as Category[]}
-              keyExtractor={(item) => item}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.tabsContent}
-              renderItem={({ item }) => {
-                const isActive = item === activeCategory;
-                return (
-                  <TouchableOpacity
-                    onPress={() => setActiveCategory(item)}
-                    style={[styles.tab, isActive && styles.tabActive]}
-                    activeOpacity={0.8}
-                  >
-                    <Text
-                      style={[styles.tabText, isActive && styles.tabTextActive]}
-                    >
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-
-          {/* Sort label */}
-          <View style={styles.sortRow}>
-            <Text style={styles.sortLabel}>
-              <FontAwesome5
-                name="sort-amount-down-alt"
-                size={12}
-                color="#9ca3af"
-              />{" "}
-              Sort by: <Text style={styles.sortValue}>Next Charge</Text>
-            </Text>
-            {/* <TouchableOpacity activeOpacity={0.7}>
-              <Text style={styles.selectMultiple}>Select Multiple</Text>
-            </TouchableOpacity> */}
-          </View>
-        </>
-      )}
-
+    <SafeAreaView className="flex-1 bg-background">
       {/* List */}
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingBottom: tabBarHeight + insets.bottom - 20,
+        }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        ListHeaderComponent={
+          <>
+            <View className="home-header">
+              <View className="flex-row items-center py-5 pb-2">
+                <Image
+                  source={
+                    user?.imageUrl ? { uri: user.imageUrl } : images.avatar
+                  }
+                  className="home-avatar"
+                />
+
+                <View className="flex-1">
+                  <Text className="home-user-name">All Subscriptions</Text>
+                  <Text className="home-user-time">{activeCount} Active</Text>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => setShowSearch(!showSearch)}
+                  className="search-button-icon"
+                >
+                  <Ionicons name="search" color="white" size={18} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {showSearch && (
+              <>
+                <View style={styles.searchRow}>
+                  <Ionicons name="search" color="#9ca3af" size={18} />
+                  <TextInput
+                    ref={searchInputRef}
+                    style={styles.searchInput}
+                    placeholder="Search subscriptions..."
+                    className="placeholder:text-muted-foreground"
+                    value={search}
+                    onChangeText={setSearch}
+                  />
+                </View>
+
+                <View style={styles.tabsWrapper}>
+                  <FlatList
+                    horizontal
+                    data={CATEGORIES as unknown as Category[]}
+                    keyExtractor={(item) => item}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.tabsContent}
+                    renderItem={({ item }) => {
+                      const isActive = item === activeCategory;
+                      return (
+                        <TouchableOpacity
+                          onPress={() => setActiveCategory(item)}
+                          style={[styles.tab, isActive && styles.tabActive]}
+                          activeOpacity={0.8}
+                        >
+                          <Text
+                            style={[
+                              styles.tabText,
+                              isActive && styles.tabTextActive,
+                            ]}
+                          >
+                            {item}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />
+                </View>
+
+                <View style={styles.sortRow}>
+                  <Text style={styles.sortLabel}>
+                    <FontAwesome5
+                      name="sort-amount-down-alt"
+                      size={12}
+                      color="#9ca3af"
+                    />{" "}
+                    Sort by: <Text style={styles.sortValue}>Next Charge</Text>
+                  </Text>
+                </View>
+              </>
+            )}
+          </>
+        }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No subscriptions found</Text>
@@ -272,10 +268,6 @@ export default function SubscriptionsScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: "#121212",
-  },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -315,7 +307,6 @@ const styles = StyleSheet.create({
   searchRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 20,
     marginBottom: 14,
     backgroundColor: "#1f1f1f",
     borderRadius: 12,
@@ -342,7 +333,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tabsContent: {
-    paddingHorizontal: 20,
     gap: 8,
   },
   tab: {
@@ -371,7 +361,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
     marginBottom: 14,
     marginLeft: 6,
   },
@@ -388,12 +377,6 @@ const styles = StyleSheet.create({
     fontFamily: "sans-medium",
     fontSize: 13,
     color: "#4a90e2",
-  },
-
-  /* List */
-  listContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 32,
   },
 
   /* Card */

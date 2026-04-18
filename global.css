@@ -84,7 +84,7 @@
   }
 
   .home-user {
-    @apply flex-row items-center;
+    @apply flex-row items-center py-5 pb-2;
   }
 
   .home-avatar {
@@ -100,7 +100,11 @@
   }
 
   .home-add-icon {
-    @apply size-11 p-3 rounded-full bg-accent-action;
+    @apply size-11 rounded-full bg-accent-action flex items-center justify-center;
+  }
+
+  .search-button-icon {
+    @apply size-11 rounded-full bg-card flex items-center justify-center border border-border;
   }
 
   .home-balance-card {

@@ -7,16 +7,20 @@ import {
   HOME_SUBSCRIPTIONS,
   UPCOMING_SUBSCRIPTIONS,
 } from "@/constants/data";
-import { icons } from "@/constants/icons";
 import images from "@/constants/images";
 import "@/global.css";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import dayjs from "dayjs";
 import { styled } from "nativewind";
 import { useState } from "react";
 import { FlatList, Image, Pressable, Text, View } from "react-native";
-import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView as RNSafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 
 const SafeAreaView = styled(RNSafeAreaView);
@@ -31,18 +35,29 @@ export default function App() {
     useState<Subscription[]>(HOME_SUBSCRIPTIONS);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const tabBarHeight = useBottomTabBarHeight();
+  const insets = useSafeAreaInsets();
+
   const handleCreateSubscription = (subscription: Subscription) => {
     setSubscriptions((current) => [subscription, ...current]);
   };
 
   return (
-    <SafeAreaView className="flex-1 p-5 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <CreateSubscriptionModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         onCreate={handleCreateSubscription}
       />
       <FlatList
+        data={subscriptions}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          paddingHorizontal: 20,
+          paddingBottom: tabBarHeight + insets.bottom - 20,
+        }}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
         ListHeaderComponent={() => (
           <>
             <View className="home-header">
@@ -64,7 +79,7 @@ export default function App() {
                   className="home-add-icon"
                   onPress={() => setIsModalVisible(true)}
                 >
-                  <Image source={icons.add} className="size-5" />
+                  <FontAwesome6 name="add" size={18} />
                 </Pressable>
               </View>
             </View>
@@ -148,8 +163,6 @@ export default function App() {
             <ListHeading title="All Subscriptions" />
           </>
         )}
-        data={subscriptions}
-        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <SubscriptionCard
             {...item}
@@ -162,12 +175,9 @@ export default function App() {
           />
         )}
         extraData={expandedSubscriptionId}
-        ItemSeparatorComponent={() => <View className="h-4" />}
-        showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <Text className="home-empty-state">No subscriptions yet.</Text>
         }
-        contentContainerClassName="pb-20"
       />
     </SafeAreaView>
   );

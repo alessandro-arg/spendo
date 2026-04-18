@@ -292,7 +292,9 @@ export default function SignInPage() {
 
             {/* ── Sign Up Footer ── */}
             <View className="auth-footer-row">
-              <Text className="auth-footer-text">Don't have an account? </Text>
+              <Text className="auth-footer-text">
+                Don&apos;t have an account?{" "}
+              </Text>
               <Link href="/(auth)/sign-up" asChild>
                 <Pressable>
                   <Text className="auth-footer-link">Sign Up</Text>
