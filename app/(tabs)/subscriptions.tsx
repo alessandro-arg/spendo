@@ -3,6 +3,7 @@ import images from "@/constants/images";
 import { useUser } from "@clerk/expo";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { styled } from "nativewind";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
@@ -14,9 +15,11 @@ import {
   View,
 } from "react-native";
 import {
-  SafeAreaView,
+  SafeAreaView as RNSafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+
+const SafeAreaView = styled(RNSafeAreaView);
 
 const CATEGORIES = ["All", "Design", "Developer Tools", "AI Tools"] as const;
 type Category = (typeof CATEGORIES)[number];
@@ -124,7 +127,7 @@ export default function SubscriptionsScreen() {
 
             {showSearch && (
               <>
-                <View style={styles.searchRow}>
+                <View className="search-row">
                   <Ionicons name="search" color="#9ca3af" size={18} />
                   <TextInput
                     ref={searchInputRef}
@@ -180,8 +183,8 @@ export default function SubscriptionsScreen() {
           </>
         }
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No subscriptions found</Text>
+          <View className="empty-state">
+            <Text className="empty-text">No subscriptions found</Text>
           </View>
         }
         renderItem={({ item }) => {
@@ -268,41 +271,6 @@ export default function SubscriptionsScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 12,
-  },
-  headerTitle: {
-    fontFamily: "sans-bold",
-    fontSize: 22,
-    color: "#f8fafc",
-    letterSpacing: -0.3,
-  },
-  headerSub: {
-    fontFamily: "sans-regular",
-    fontSize: 13,
-    color: "#9ca3af",
-    marginTop: 2,
-  },
-  iconBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 200,
-    backgroundColor: "#1f1f1f",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#353535",
-  },
-  iconBtnText: {
-    color: "#f8fafc",
-    fontSize: 18,
-  },
-
   /* Search */
   searchRow: {
     flexDirection: "row",

@@ -163,6 +163,11 @@ export default function App() {
             <ListHeading title="All Subscriptions" />
           </>
         )}
+        ListEmptyComponent={
+          <View className="empty-state">
+            <Text className="empty-text">No subscriptions yet</Text>
+          </View>
+        }
         renderItem={({ item }) => (
           <SubscriptionCard
             {...item}
@@ -175,9 +180,6 @@ export default function App() {
           />
         )}
         extraData={expandedSubscriptionId}
-        ListEmptyComponent={
-          <Text className="home-empty-state">No subscriptions yet.</Text>
-        }
       />
     </SafeAreaView>
   );

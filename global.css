@@ -103,6 +103,10 @@
     @apply size-11 rounded-full bg-accent-action flex items-center justify-center;
   }
 
+  .search-row {
+    @apply flex items-center flex-row mb-3 bg-card rounded-2xl border border-border px-3 h-11;
+  }
+
   .search-button-icon {
     @apply size-11 rounded-full bg-card flex items-center justify-center border border-border;
   }
@@ -251,8 +255,12 @@
     @apply font-sans-bold text-btn-primary-text;
   }
 
-  .home-empty-state {
-    @apply py-4 text-sm font-sans-medium text-muted-foreground;
+  .empty-state {
+    @apply pt-14 text-sm font-sans-medium text-muted-foreground items-center;
+  }
+
+  .empty-text {
+    @apply font-sans-medium text-base text-muted;
   }
 
   .auth-safe-area {
