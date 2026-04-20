@@ -1,12 +1,8 @@
+import SubscriptionCard from "@/components/SubscriptionCard";
 import { HOME_SUBSCRIPTIONS } from "@/constants/data";
 import images from "@/constants/images";
-import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
-import {
-  FontAwesome5,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { styled } from "nativewind";
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -85,6 +81,9 @@ export default function SubscriptionsScreen() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [showSearch, setShowSearch] = useState(false);
   const searchInputRef = useRef<TextInput>(null);
+  const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
+    string | null
+  >(null);
 
   const tabBarHeight = useBottomTabBarHeight();
   const insets = useSafeAreaInsets();
@@ -207,102 +206,17 @@ export default function SubscriptionsScreen() {
             <Text className="empty-text">No subscriptions found</Text>
           </View>
         }
-        renderItem={({ item }) => {
-          const statusKey = item.status ?? "active";
-          const isInactive =
-            statusKey === "paused" || statusKey === "cancelled";
-          const statusConf =
-            STATUS_CONFIG[statusKey] ?? STATUS_CONFIG["active"];
-          const renewalLabel = item.renewalDate
-            ? formatRenewalLabel(item.renewalDate)
-            : "—";
-          const urgent = item.renewalDate ? isUrgent(item.renewalDate) : false;
-
-          return (
-            <TouchableOpacity
-              activeOpacity={0.85}
-              className={`sub-card ${isInactive ? "opacity-60" : ""}`}
-              key={`${item.id}+${item.startDate}`}
-            >
-              {/* Top row */}
-              <View className="sub-card-top">
-                {/* Icon */}
-                <View
-                  style={[{ backgroundColor: item.color ?? "#2a2a2a" }]}
-                  className={`sub-card-icon-wrapper`}
-                >
-                  {item.icon ? (
-                    <Image
-                      source={item.icon}
-                      className="sub-card-icon"
-                      resizeMode="contain"
-                    />
-                  ) : (
-                    <MaterialCommunityIcons
-                      name="progress-question"
-                      className="sub-icon-fallback"
-                      size={30}
-                    />
-                  )}
-                </View>
-
-                {/* Name & category */}
-                <View className="flex-1">
-                  <Text className="sub-card-name">{item.name}</Text>
-                  <Text className="sub-card-category">{item.category}</Text>
-                </View>
-
-                {/* Price */}
-                <View className="items-end ">
-                  <Text
-                    className="sub-card-price"
-                    style={{
-                      textDecorationLine: isInactive ? "line-through" : "none",
-                    }}
-                  >
-                    {formatCurrency(item.price)}
-                  </Text>
-                  <Text className="sub-card-period">
-                    {item.billing.toLowerCase()}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Divider */}
-              <View className="mb-3 bg-border h-0.5" />
-
-              {/* Bottom row */}
-              <View className="flex flex-row items-center justify-between">
-                <View
-                  style={[
-                    {
-                      backgroundColor: statusConf.bg,
-                      borderColor: statusConf.border,
-                      borderWidth: 1,
-                    },
-                  ]}
-                  className={`sub-card-status`}
-                >
-                  <Text
-                    className={`text-[12px] font-sans-medium`}
-                    style={[{ color: statusConf.text }]}
-                  >
-                    {statusConf.label}
-                  </Text>
-                </View>
-
-                <View className="items-end">
-                  <Text className="sub-renewal-label">Next charge</Text>
-                  <Text
-                    className={`sub-renewal-date ${urgent && "text-destructive!"}`}
-                  >
-                    {renewalLabel}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
+        renderItem={({ item }) => (
+          <SubscriptionCard
+            {...item}
+            expanded={expandedSubscriptionId === item.id}
+            onPress={() =>
+              setExpandedSubscriptionId((currentId) =>
+                currentId === item.id ? null : item.id,
+              )
+            }
+          />
+        )}
       />
     </SafeAreaView>
   );

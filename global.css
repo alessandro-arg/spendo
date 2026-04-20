@@ -259,10 +259,6 @@
     @apply font-sans-medium text-[13px] text-primary;
   }
 
-  .sub-card-expanded {
-    @apply bg-card/60 border border-accent/60!;
-  }
-
   .sub-head {
     @apply flex-row items-center py-2;
   }
@@ -304,7 +300,7 @@
   }
 
   .sub-details {
-    @apply gap-6;
+    @apply gap-3;
   }
 
   .sub-row {
