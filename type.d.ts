@@ -1,6 +1,17 @@
 import type { ImageSourcePropType } from "react-native";
 
 declare global {
+  type SubscriptionStatus = "active" | "paused" | "cancelled" | "trial";
+
+  interface StatusConfigItem {
+    label: string;
+    bg: string;
+    border: string;
+    text: string;
+  }
+
+  type StatusConfig = Record<SubscriptionStatus, StatusConfigItem>;
+
   interface AppTab {
     name: string;
     title: string;
@@ -14,12 +25,12 @@ declare global {
 
   interface Subscription {
     id: string;
-    icon: ImageSourcePropType;
+    icon?: ImageSourcePropType;
     name: string;
     plan?: string;
     category?: string;
     paymentMethod?: string;
-    status?: string;
+    status?: SubscriptionStatus;
     startDate?: string;
     price: number;
     currency?: string;

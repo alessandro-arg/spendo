@@ -1,3 +1,4 @@
+import { STATUS_CONFIG } from "@/constants/sub-status";
 import {
   formatCurrency,
   formatStatusLabel,
@@ -7,36 +8,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import clsx from "clsx";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-
-const STATUS_CONFIG: Record<
-  string,
-  { label: string; bg: string; border: string; text: string }
-> = {
-  active: {
-    label: "Active",
-    bg: "#10b98122",
-    border: "#10b98166",
-    text: "#10b981",
-  },
-  paused: {
-    label: "Paused",
-    bg: "#f59e0b22",
-    border: "#f59e0b66",
-    text: "#f59e0b",
-  },
-  cancelled: {
-    label: "Cancelled",
-    bg: "#ef444422",
-    border: "#ef444466",
-    text: "#ef4444",
-  },
-  trial: {
-    label: "Trial",
-    bg: "#4a90e222",
-    border: "#4a90e266",
-    text: "#4a90e2",
-  },
-};
 
 function getDaysUntil(dateStr: string): number {
   const now = new Date();
@@ -62,7 +33,6 @@ function isUrgent(dateStr: string): boolean {
 const SubscriptionCard = ({
   name,
   price,
-  currency,
   icon,
   billing,
   color,
@@ -74,12 +44,11 @@ const SubscriptionCard = ({
   startDate,
   status,
   onPress,
-  onCancelPress,
 }: SubscriptionCardProps) => {
   const fallback: string = "Not Provided";
-  const statusKey = status ?? "active";
+  const statusKey: SubscriptionStatus = status ?? "active";
   const isInactive = statusKey === "paused" || statusKey === "cancelled";
-  const statusConf = STATUS_CONFIG[statusKey] ?? STATUS_CONFIG["active"];
+  const statusConf = STATUS_CONFIG[statusKey];
   const renewalLabel = renewalDate ? formatRenewalLabel(renewalDate) : "—";
   const urgent = renewalDate ? isUrgent(renewalDate) : false;
 

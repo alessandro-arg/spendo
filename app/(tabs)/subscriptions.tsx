@@ -1,6 +1,7 @@
 import SubscriptionCard from "@/components/SubscriptionCard";
 import { HOME_SUBSCRIPTIONS } from "@/constants/data";
 import images from "@/constants/images";
+import { useSubscriptionStore } from "@/lib/SubscriptionContext";
 import { useUser } from "@clerk/expo";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -77,6 +78,7 @@ function isUrgent(dateStr: string): boolean {
 
 export default function SubscriptionsScreen() {
   const { user } = useUser();
+  const subscriptions = useSubscriptionStore((state) => state.subscriptions);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [showSearch, setShowSearch] = useState(false);
@@ -95,7 +97,7 @@ export default function SubscriptionsScreen() {
   }, [showSearch]);
 
   const filtered = useMemo(() => {
-    return HOME_SUBSCRIPTIONS.filter((sub) => {
+    return subscriptions.filter((sub) => {
       const matchSearch =
         search.trim() === "" ||
         sub.name.toLowerCase().includes(search.toLowerCase());
@@ -103,9 +105,9 @@ export default function SubscriptionsScreen() {
         activeCategory === "All" || sub.category === activeCategory;
       return matchSearch && matchCat;
     });
-  }, [search, activeCategory]);
+  }, [search, activeCategory, subscriptions]);
 
-  const activeCount = HOME_SUBSCRIPTIONS.filter(
+  const activeCount = subscriptions.filter(
     (s) => s.status === "active",
   ).length;
 

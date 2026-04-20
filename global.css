@@ -148,7 +148,7 @@
   }
 
   .home-balance-card {
-    @apply relative mb-3 min-h-50 justify-between gap-5 rounded-3xl bg-card border border-border p-5 overflow-hidden;
+    @apply relative mb-2 min-h-50 justify-between gap-5 rounded-3xl bg-card border border-border p-5 overflow-hidden;
   }
 
   .home-balance-label {
@@ -176,11 +176,11 @@
   }
 
   .list-title {
-    @apply text-2xl font-sans-bold text-primary;
+    @apply text-2xl font-sans-semibold text-primary;
   }
 
   .list-action {
-    @apply rounded-full border border-border px-3 py-1;
+    @apply rounded-xl border border-border px-3 py-1;
   }
 
   .list-action-text {
@@ -209,6 +209,47 @@
 
   .upcoming-name {
     @apply mt-2 text-lg font-sans-bold text-primary;
+  }
+
+  /* ── UpcomingSubscriptionCard (usc-*) component classes ── */
+  .usc-container {
+    @apply w-[148px] rounded-[18px] bg-card border border-border p-[13px] mr-3 gap-2;
+  }
+
+  .usc-header {
+    @apply flex-row items-center justify-between;
+  }
+
+  .usc-icon-wrapper {
+    @apply size-9 rounded-[10px] items-center justify-center overflow-hidden;
+  }
+
+  .usc-icon-image {
+    @apply size-5;
+  }
+
+  .usc-badge {
+    @apply px-2 py-[3px] rounded-[6px];
+  }
+
+  .usc-badge-text {
+    @apply text-[11px] font-sans-semibold;
+  }
+
+  .usc-name {
+    @apply text-[13px] font-sans-semibold text-primary;
+  }
+
+  .usc-category {
+    @apply text-[11px] font-sans-medium text-muted mt-[2px];
+  }
+
+  .usc-price {
+    @apply text-base font-sans-bold text-primary;
+  }
+
+  .usc-billing {
+    @apply text-[10px] font-sans-light text-muted mt-[1px] capitalize;
   }
 
   .sub-card {
