@@ -2,15 +2,36 @@ import "@/global.css";
 import { ClerkProvider } from "@clerk/expo";
 import { tokenCache } from "@clerk/expo/token-cache";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import {
+  SplashScreen,
+  Stack,
+  useGlobalSearchParams,
+  usePathname,
+} from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { PostHogProvider } from "posthog-react-native";
+import { PostHogProvider, usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
 if (!publishableKey) {
   throw new Error("Add your Clerk Publishable Key to the .env file");
+}
+
+function ScreenTracker() {
+  const pathname = usePathname();
+  const params = useGlobalSearchParams();
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    if (!pathname) return;
+
+    posthog.screen(pathname, {
+      ...params,
+    });
+  }, [pathname, params, posthog]);
+
+  return null;
 }
 
 export default function RootLayout() {
@@ -35,8 +56,13 @@ export default function RootLayout() {
     <PostHogProvider
       apiKey={process.env.EXPO_PUBLIC_POSTHOG_API_KEY!}
       options={{ host: process.env.EXPO_PUBLIC_POSTHOG_HOST }}
+      autocapture={{
+        captureScreens: false,
+        captureTouches: true,
+      }}
     >
       <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+        <ScreenTracker />
         <StatusBar backgroundColor="#121212" />
         <Stack
           screenOptions={{

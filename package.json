@@ -11,7 +11,7 @@
     "lint": "expo lint"
   },
   "dependencies": {
-    "@clerk/expo": "^3.1.9",
+    "@clerk/expo": "^3.2.1",
     "@expo/vector-icons": "^15.0.3",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -42,7 +42,7 @@
     "expo-system-ui": "~6.0.9",
     "expo-web-browser": "~15.0.10",
     "nativewind": "^5.0.0-preview.3",
-    "posthog-react-native": "^4.41.1",
+    "posthog-react-native": "^4.42.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",

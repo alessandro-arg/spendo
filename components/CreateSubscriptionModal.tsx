@@ -2,6 +2,7 @@ import { icons } from "@/constants/icons";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import { usePostHog } from "posthog-react-native";
 import React, { useMemo, useState } from "react";
 import {
   Modal,
@@ -71,6 +72,8 @@ const CreateSubscriptionModal = ({
   const [showCategoryPicker, setShowCategoryPicker] = useState(false);
   const [nameError, setNameError] = useState<string | null>(null);
   const [amountError, setAmountError] = useState<string | null>(null);
+
+  const posthog = usePostHog();
 
   const resetForm = () => {
     setServiceName("");
@@ -142,6 +145,13 @@ const CreateSubscriptionModal = ({
     };
 
     onCreate(subscription);
+
+    posthog.capture("subscription_created", {
+      subscription_name: subscription.name,
+      subscription_price: subscription.price,
+      subscription_billing: subscription.billing,
+    });
+
     resetForm();
     onClose();
   };
