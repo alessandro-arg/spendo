@@ -103,7 +103,7 @@ export default function CodeVerification({
 
               <Text className="auth-title">Verify your email</Text>
               <Text className="auth-subtitle">
-                We've sent a verification code to {emailAddress}
+                We&apos;ve sent a verification code to {emailAddress}
               </Text>
             </View>
 
@@ -151,7 +151,9 @@ export default function CodeVerification({
             </View>
 
             <View className="auth-footer-row">
-              <Text className="auth-footer-text">Didn't receive a code? </Text>
+              <Text className="auth-footer-text">
+                Didn&apos;t receive a code?{" "}
+              </Text>
               <Pressable
                 onPress={handleResend}
                 disabled={resendStatus !== "idle"}

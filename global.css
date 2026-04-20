@@ -84,27 +84,71 @@
   }
 
   .home-user {
-    @apply flex-row items-center;
+    @apply flex-row items-center py-5 pb-2;
   }
 
   .home-avatar {
-    @apply size-12 rounded-full;
+    @apply size-11 rounded-full;
   }
 
   .home-user-name {
-    @apply ml-4 text-xl font-sans-bold text-primary;
+    @apply ml-4 text-xl font-sans-semibold text-primary;
   }
 
   .home-user-time {
-    @apply ml-4 text-lg font-sans-medium text-muted-foreground;
+    @apply ml-4 text-base font-sans-light text-muted-foreground;
   }
 
   .home-add-icon {
-    @apply size-12 p-3 rounded-full bg-accent-action;
+    @apply size-11 rounded-full bg-accent-action flex items-center justify-center;
+  }
+
+  .search-row {
+    @apply flex items-center flex-row mb-3 bg-card rounded-2xl border border-border px-3 h-11;
+  }
+
+  .search-input {
+    @apply flex-1 font-sans-medium tracking-wide text-base text-primary ml-3 placeholder:text-muted-foreground;
+  }
+
+  .search-button-icon {
+    @apply size-11 rounded-full bg-card flex items-center justify-center border border-border;
+  }
+
+  .tabs-wrapper {
+    @apply mb-3;
+  }
+
+  .search-tab {
+    @apply px-4 py-2 rounded-full bg-card border border-border;
+  }
+
+  .search-tab-active {
+    @apply bg-primary/90 border-[#f8fafc90];
+  }
+
+  .search-tab-text {
+    @apply font-sans-medium tracking-wide text-sm text-muted-foreground;
+  }
+
+  .search-tab-text-active {
+    @apply text-background;
+  }
+
+  .sort-row {
+    @apply flex flex-row items-center justify-between mb-[14px] ml-[6px] py-1 tracking-normal;
+  }
+
+  .sort-value {
+    @apply font-sans-medium text-muted-foreground;
+  }
+
+  .sort-label {
+    @apply text-[13px] font-sans-light text-muted-foreground;
   }
 
   .home-balance-card {
-    @apply relative my-2.5 min-h-50 justify-between gap-5 rounded-3xl bg-card border border-border p-5 overflow-hidden;
+    @apply relative mb-2 min-h-50 justify-between gap-5 rounded-3xl bg-card border border-border p-5 overflow-hidden;
   }
 
   .home-balance-label {
@@ -128,15 +172,15 @@
   }
 
   .list-head {
-    @apply my-5 flex-row items-center justify-between;
+    @apply my-3 flex-row items-center justify-between;
   }
 
   .list-title {
-    @apply text-2xl font-sans-bold text-primary;
+    @apply text-2xl font-sans-semibold text-primary;
   }
 
   .list-action {
-    @apply rounded-full border border-border px-3 py-1;
+    @apply rounded-xl border border-border px-3 py-1;
   }
 
   .list-action-text {
@@ -167,12 +211,93 @@
     @apply mt-2 text-lg font-sans-bold text-primary;
   }
 
-  .sub-card {
-    @apply rounded-2xl border border-border p-4;
+  /* ── UpcomingSubscriptionCard (usc-*) component classes ── */
+  .usc-container {
+    @apply w-[148px] rounded-[18px] bg-card border border-border p-[13px] mr-3 gap-2;
   }
 
-  .sub-card-expanded {
-    @apply bg-card/60 border border-accent/60!;
+  .usc-header {
+    @apply flex-row items-center justify-between;
+  }
+
+  .usc-icon-wrapper {
+    @apply size-9 rounded-[10px] items-center justify-center overflow-hidden;
+  }
+
+  .usc-icon-image {
+    @apply size-5;
+  }
+
+  .usc-badge {
+    @apply px-2 py-[3px] rounded-[6px];
+  }
+
+  .usc-badge-text {
+    @apply text-[11px] font-sans-semibold;
+  }
+
+  .usc-name {
+    @apply text-[13px] font-sans-semibold text-primary;
+  }
+
+  .usc-category {
+    @apply text-[11px] font-sans-medium text-muted mt-[2px];
+  }
+
+  .usc-price {
+    @apply text-base font-sans-bold text-primary;
+  }
+
+  .usc-billing {
+    @apply text-[10px] font-sans-light text-muted mt-[1px] capitalize;
+  }
+
+  .sub-card {
+    @apply rounded-2xl bg-card border border-border px-4 pt-4 pb-[14px];
+  }
+
+  .sub-card-top {
+    @apply flex flex-row items-center mb-[14px];
+  }
+
+  .sub-card-icon-wrapper {
+    @apply size-11 rounded-xl items-center justify-center mr-3 overflow-hidden;
+  }
+
+  .sub-card-icon {
+    @apply size-[26px];
+  }
+
+  .sub-icon-fallback {
+    @apply text-muted-foreground;
+  }
+
+  .sub-card-name {
+    @apply font-sans-semibold text-[15px] text-primary mb-[2px];
+  }
+
+  .sub-card-category {
+    @apply text-[12px] text-muted-foreground font-sans-medium;
+  }
+
+  .sub-card-price {
+    @apply font-sans-bold text-base text-primary;
+  }
+
+  .sub-card-period {
+    @apply font-sans-light text-[11px] text-muted-foreground mt-[1px] capitalize;
+  }
+
+  .sub-card-status {
+    @apply px-[10px] py-[6px] rounded-lg;
+  }
+
+  .sub-renewal-label {
+    @apply font-sans-light text-[11px] text-muted-foreground mb-[2px];
+  }
+
+  .sub-renewal-date {
+    @apply font-sans-medium text-[13px] text-primary;
   }
 
   .sub-head {
@@ -216,7 +341,7 @@
   }
 
   .sub-details {
-    @apply gap-6;
+    @apply gap-3;
   }
 
   .sub-row {
@@ -247,8 +372,12 @@
     @apply font-sans-bold text-btn-primary-text;
   }
 
-  .home-empty-state {
-    @apply py-4 text-sm font-sans-medium text-muted-foreground;
+  .empty-state {
+    @apply pt-14 items-center;
+  }
+
+  .empty-text {
+    @apply font-sans-light text-base text-muted-foreground;
   }
 
   .auth-safe-area {
@@ -373,6 +502,147 @@
 
   .terms-link {
     @apply text-accent-action;
+  }
+
+  /* ─────────────────────────────────────────────
+   CreateSubscriptionModal (csm-*) classes
+   Add these inside your @layer components block
+   in global.css
+   ───────────────────────────────────────────── */
+
+  /* Sheet container */
+  .csm-container {
+    @apply bg-background rounded-t-3xl overflow-hidden max-h-[92%];
+  }
+
+  /* Header */
+  .csm-header {
+    @apply flex-row items-center justify-between px-5 py-4;
+  }
+
+  .csm-back-btn {
+    @apply size-11 rounded-full border border-border items-center justify-center;
+  }
+
+  .auth-arrow-back {
+    @apply absolute top-5 left-5 z-10 w-11 h-11 rounded-full border border-border flex items-center justify-center;
+  }
+
+  .csm-header-title {
+    @apply text-xl font-sans-bold text-primary;
+  }
+
+  /* Field wrapper */
+  .csm-field {
+    @apply mb-4;
+  }
+
+  /* Section label (uppercase small caps style) */
+  .csm-label {
+    @apply text-xs font-sans-semibold text-muted-foreground mb-2 tracking-wide uppercase;
+  }
+
+  /* Base input row (rounded dark container) */
+  .csm-input-row {
+    @apply flex-row items-center rounded-2xl border border-border bg-card px-4;
+    min-height: 52px;
+  }
+
+  .csm-input-error {
+    @apply border-destructive!;
+  }
+
+  /* Text inside input rows */
+  .csm-input {
+    @apply text-primary text-base font-sans-medium py-3.5 placeholder:text-muted-foreground;
+  }
+
+  .csm-placeholder {
+    @apply text-primary;
+  }
+
+  /* Service icon wrap (small rounded square) */
+  .csm-service-icon-wrap {
+    @apply size-8 rounded-lg bg-muted/10 border border-border items-center justify-center mr-3 -ml-1;
+  }
+
+  /* Picker row (input + chevron) */
+  .csm-picker-row {
+    @apply justify-between;
+  }
+
+  /* Horizontal pair of fields (Amount + Currency) */
+  .csm-row-fields {
+    @apply flex-row gap-3;
+  }
+
+  /* Dropdown overlay */
+  .csm-dropdown {
+    @apply absolute top-full left-0 right-0 z-50 mt-1 rounded-2xl border border-border bg-card overflow-hidden;
+  }
+
+  .csm-dropdown-item {
+    @apply flex-row items-center gap-3 px-4 py-3 border-b border-border;
+  }
+
+  .csm-dropdown-item-active {
+    @apply bg-accent/10;
+  }
+
+  .csm-dropdown-text {
+    @apply text-base font-sans-medium text-muted-foreground;
+  }
+
+  .csm-dropdown-text-active {
+    @apply text-accent;
+  }
+
+  /* Category color dot */
+  .csm-category-dot {
+    @apply size-3 rounded-full;
+  }
+
+  /* Horizontal divider */
+  .csm-divider {
+    @apply h-0.5 bg-border mt-4 mb-6;
+  }
+
+  /* Billing cycle pill row */
+  .csm-billing-row {
+    @apply flex-row rounded-2xl border border-border bg-card p-1 gap-1;
+  }
+
+  .csm-billing-option {
+    @apply flex-1 items-center justify-center rounded-xl py-2.5;
+  }
+
+  .csm-billing-option-active {
+    @apply bg-accent;
+  }
+
+  .csm-billing-text {
+    @apply text-sm font-sans-semibold text-muted-foreground;
+  }
+
+  .csm-billing-text-active {
+    @apply text-background font-sans-bold;
+  }
+
+  /* Bottom action bar */
+  .csm-actions {
+    @apply flex-row items-center gap-3 px-5 pt-4;
+  }
+
+  .csm-delete-btn {
+    @apply size-[52px] rounded-2xl bg-destructive/10 border border-destructive/30 items-center justify-center;
+  }
+
+  .csm-save-btn {
+    @apply items-center justify-center rounded-2xl bg-accent py-4;
+  }
+
+  .csm-save-text {
+    @apply text-background text-base font-sans-bold;
   }
 
   .modal-overlay {

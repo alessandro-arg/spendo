@@ -46,7 +46,21 @@ export const UPCOMING_SUBSCRIPTIONS: UpcomingSubscription[] = [
 
 export const HOME_SUBSCRIPTIONS: Subscription[] = [
   {
-    id: "adobe-creative-cloud",
+    id: "test-test",
+    name: "Test Sub",
+    plan: "Teams Plan",
+    category: "Design",
+    paymentMethod: "Visa ending in 8530",
+    status: "active",
+    startDate: "2025-03-20T10:00:00.000Z",
+    price: 10.99,
+    currency: "EUR",
+    billing: "monthly",
+    renewalDate: "2026-05-01T10:00:00.000Z",
+    color: "",
+  },
+  {
+    id: "adobe-creative-cloudasddasads",
     icon: icons.adobe,
     name: "Adobe Creative Cloud",
     plan: "Teams Plan",
@@ -57,8 +71,8 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     price: 77.49,
     currency: "USD",
     billing: "monthly",
-    renewalDate: "2026-03-20T10:00:00.000Z",
-    color: "#f5c54270",
+    renewalDate: "2026-04-22T10:00:00.000Z",
+    color: "#ff646790",
   },
   {
     id: "github-pro",
@@ -72,7 +86,7 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     price: 9.99,
     currency: "USD",
     billing: "Monthly",
-    renewalDate: "2026-03-24T10:00:00.000Z",
+    renewalDate: "2026-04-28T10:00:00.000Z",
     color: "#e8def8",
   },
   {
@@ -87,7 +101,7 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     price: 20.0,
     currency: "USD",
     billing: "Monthly",
-    renewalDate: "2026-03-27T10:00:00.000Z",
+    renewalDate: "2026-04-25T10:00:00.000Z",
     color: "#b8d4e3",
   },
   {
@@ -102,7 +116,7 @@ export const HOME_SUBSCRIPTIONS: Subscription[] = [
     price: 119.99,
     currency: "USD",
     billing: "Yearly",
-    renewalDate: "2026-04-02T10:00:00.000Z",
+    renewalDate: "2026-04-23T10:00:00.000Z",
     color: "#b8e8d0",
   },
 ];

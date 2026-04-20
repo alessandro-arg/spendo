@@ -1,16 +1,18 @@
+import { STATUS_CONFIG } from "@/constants/sub-status";
+import { formatRenewalLabel, isUrgent } from "@/lib/subscriptionDates";
 import {
   formatCurrency,
   formatStatusLabel,
   formatSubscriptionDateTime,
 } from "@/lib/utils";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import clsx from "clsx";
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 const SubscriptionCard = ({
   name,
   price,
-  currency,
   icon,
   billing,
   color,
@@ -22,40 +24,99 @@ const SubscriptionCard = ({
   startDate,
   status,
   onPress,
-  onCancelPress,
 }: SubscriptionCardProps) => {
   const fallback: string = "Not Provided";
+  const statusKey: SubscriptionStatus = status ?? "active";
+  const isInactive = statusKey === "paused" || statusKey === "cancelled";
+  const statusConf = STATUS_CONFIG[statusKey];
+  const renewalLabel = renewalDate ? formatRenewalLabel(renewalDate) : "—";
+  const urgent = renewalDate ? isUrgent(renewalDate) : false;
+
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
-      className={clsx("sub-card", expanded ? "sub-card-expanded" : "bg-card")}
-      style={
-        !expanded && color ? { borderColor: color } : { borderColor: "#353535" }
-      }
+      className={clsx("sub-card", isInactive ? "opacity-60" : "")}
+      activeOpacity={0.85}
     >
-      <View className="sub-head">
-        <View className="sub-main">
-          <Image source={icon} className="sub-icon" />
-          <View className="sub-copy">
-            <Text numberOfLines={1} className="sub-title">
-              {name}
-            </Text>
-            <Text numberOfLines={1} ellipsizeMode="tail" className="sub-meta">
-              {category?.trim() ||
-                plan?.trim() ||
-                (renewalDate ? formatSubscriptionDateTime(renewalDate) : "")}
-            </Text>
-          </View>
+      <View className="sub-card-top">
+        <View
+          style={[{ backgroundColor: color ?? "#2a2a2a" }]}
+          className="sub-card-icon-wrapper"
+        >
+          {icon ? (
+            <Image
+              source={icon}
+              className="sub-card-icon"
+              resizeMode="contain"
+            />
+          ) : (
+            <MaterialCommunityIcons
+              name="progress-question"
+              className="sub-icon-fallback"
+              size={30}
+            />
+          )}
         </View>
 
-        <View className="sub-price-box">
-          <Text className="sub-price">{formatCurrency(price, currency)}</Text>
-          <Text className="sub-billing">{billing}</Text>
+        <View className="flex-1">
+          <Text className="sub-card-name">{name}</Text>
+          <Text className="sub-card-category">{category}</Text>
+        </View>
+
+        <View className="items-end ">
+          <Text
+            className="sub-card-price"
+            style={{
+              textDecorationLine: isInactive ? "line-through" : "none",
+            }}
+          >
+            {formatCurrency(price)}
+          </Text>
+          <Text className="sub-card-period">{billing.toLowerCase()}</Text>
         </View>
       </View>
 
+      {!expanded && (
+        <>
+          {/* Divider */}
+          <View className="mb-3 bg-border h-0.5" />
+
+          <View className="flex flex-row items-center justify-between">
+            <View
+              style={[
+                {
+                  backgroundColor: statusConf.bg,
+                  borderColor: statusConf.border,
+                  borderWidth: 1,
+                },
+              ]}
+              className="sub-card-status"
+            >
+              <Text
+                className="text-[12px] font-sans-medium"
+                style={[{ color: statusConf.text }]}
+              >
+                {statusConf.label}
+              </Text>
+            </View>
+
+            <View className="items-end">
+              <Text className="sub-renewal-label">Next charge</Text>
+              <Text
+                className={clsx(
+                  "sub-renewal-date",
+                  urgent && "text-destructive!",
+                )}
+              >
+                {renewalLabel}
+              </Text>
+            </View>
+          </View>
+        </>
+      )}
+
       {expanded && (
-        <View className="sub-body">
+        <View className="">
           <View className="sub-details">
             <View className="sub-row">
               <View className="sub-row-copy">
@@ -98,15 +159,30 @@ const SubscriptionCard = ({
             <View className="sub-row">
               <View className="sub-row-copy">
                 <Text className="sub-label">Status:</Text>
-                <Text className="sub-value" numberOfLines={1}>
-                  {status ? formatStatusLabel(status) : fallback}
-                </Text>
+                <View
+                  style={[
+                    {
+                      backgroundColor: statusConf.bg,
+                      borderColor: statusConf.border,
+                      borderWidth: 1,
+                    },
+                  ]}
+                  className="sub-card-status"
+                >
+                  <Text
+                    className="text-[12px] font-sans-medium"
+                    style={[{ color: statusConf.text }]}
+                    numberOfLines={1}
+                  >
+                    {status ? formatStatusLabel(status) : fallback}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
