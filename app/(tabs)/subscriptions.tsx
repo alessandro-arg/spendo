@@ -1,10 +1,11 @@
 import SubscriptionCard from "@/components/SubscriptionCard";
-import { HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { CATEGORIES, Category } from "@/constants/categories";
 import images from "@/constants/images";
 import { useSubscriptionStore } from "@/lib/SubscriptionContext";
 import { useUser } from "@clerk/expo";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import clsx from "clsx";
 import { styled } from "nativewind";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -21,60 +22,6 @@ import {
 } from "react-native-safe-area-context";
 
 const SafeAreaView = styled(RNSafeAreaView);
-
-const CATEGORIES = ["All", "Design", "Developer Tools", "AI Tools"] as const;
-type Category = (typeof CATEGORIES)[number];
-
-const STATUS_CONFIG: Record<
-  string,
-  { label: string; bg: string; border: string; text: string }
-> = {
-  active: {
-    label: "Active",
-    bg: "#10b98122",
-    border: "#10b98166",
-    text: "#10b981",
-  },
-  paused: {
-    label: "Paused",
-    bg: "#f59e0b22",
-    border: "#f59e0b66",
-    text: "#f59e0b",
-  },
-  cancelled: {
-    label: "Cancelled",
-    bg: "#ef444422",
-    border: "#ef444466",
-    text: "#ef4444",
-  },
-  trial: {
-    label: "Trial",
-    bg: "#4a90e222",
-    border: "#4a90e266",
-    text: "#4a90e2",
-  },
-};
-
-function getDaysUntil(dateStr: string): number {
-  const now = new Date();
-  const target = new Date(dateStr);
-  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-function formatRenewalLabel(dateStr: string): string {
-  const days = getDaysUntil(dateStr);
-  const date = new Date(dateStr);
-  const month = date.toLocaleString("en-US", { month: "short" });
-  const day = date.getDate();
-  const base = `${month} ${day}`;
-  if (days <= 0) return base;
-  if (days <= 7) return `${base} (In ${days} day${days === 1 ? "" : "s"})`;
-  return base;
-}
-
-function isUrgent(dateStr: string): boolean {
-  return getDaysUntil(dateStr) <= 7 && getDaysUntil(dateStr) > 0;
-}
 
 export default function SubscriptionsScreen() {
   const { user } = useUser();
@@ -107,9 +54,7 @@ export default function SubscriptionsScreen() {
     });
   }, [search, activeCategory, subscriptions]);
 
-  const activeCount = subscriptions.filter(
-    (s) => s.status === "active",
-  ).length;
+  const activeCount = subscriptions.filter((s) => s.status === "active").length;
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -175,11 +120,17 @@ export default function SubscriptionsScreen() {
                       return (
                         <TouchableOpacity
                           onPress={() => setActiveCategory(item)}
-                          className={`search-tab ${isActive && "search-tab-active"}`}
+                          className={clsx(
+                            "search-tab",
+                            isActive && "search-tab-active",
+                          )}
                           activeOpacity={0.8}
                         >
                           <Text
-                            className={`search-tab-text ${isActive && "search-tab-text-active"}`}
+                            className={clsx(
+                              "search-tab-text",
+                              isActive && "search-tab-text-active",
+                            )}
                           >
                             {item}
                           </Text>

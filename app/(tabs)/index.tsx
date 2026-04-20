@@ -1,13 +1,12 @@
 import CreateSubscriptionModal from "@/components/CreateSubscriptionModal";
 import ListHeading from "@/components/ListHeading";
 import SubscriptionCard from "@/components/SubscriptionCard";
-import UpcomingSubscriptionCard, {
-  getDaysUntil,
-} from "@/components/UpcomingSubscriptionCard";
+import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
 import { HOME_BALANCE } from "@/constants/data";
 import images from "@/constants/images";
 import "@/global.css";
 import { useSubscriptionStore } from "@/lib/SubscriptionContext";
+import { getDaysUntil } from "@/lib/subscriptionDates";
 import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
 import { FontAwesome6 } from "@expo/vector-icons";

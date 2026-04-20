@@ -1,4 +1,5 @@
 import { STATUS_CONFIG } from "@/constants/sub-status";
+import { formatRenewalLabel, isUrgent } from "@/lib/subscriptionDates";
 import {
   formatCurrency,
   formatStatusLabel,
@@ -8,27 +9,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import clsx from "clsx";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-
-function getDaysUntil(dateStr: string): number {
-  const now = new Date();
-  const target = new Date(dateStr);
-  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-function formatRenewalLabel(dateStr: string): string {
-  const days = getDaysUntil(dateStr);
-  const date = new Date(dateStr);
-  const month = date.toLocaleString("en-US", { month: "short" });
-  const day = date.getDate();
-  const base = `${month} ${day}`;
-  if (days <= 0) return base;
-  if (days <= 7) return `${base} (In ${days} day${days === 1 ? "" : "s"})`;
-  return base;
-}
-
-function isUrgent(dateStr: string): boolean {
-  return getDaysUntil(dateStr) <= 7 && getDaysUntil(dateStr) > 0;
-}
 
 const SubscriptionCard = ({
   name,
@@ -61,7 +41,7 @@ const SubscriptionCard = ({
       <View className="sub-card-top">
         <View
           style={[{ backgroundColor: color ?? "#2a2a2a" }]}
-          className={`sub-card-icon-wrapper`}
+          className="sub-card-icon-wrapper"
         >
           {icon ? (
             <Image
@@ -110,10 +90,10 @@ const SubscriptionCard = ({
                   borderWidth: 1,
                 },
               ]}
-              className={`sub-card-status`}
+              className="sub-card-status"
             >
               <Text
-                className={`text-[12px] font-sans-medium`}
+                className="text-[12px] font-sans-medium"
                 style={[{ color: statusConf.text }]}
               >
                 {statusConf.label}
@@ -123,7 +103,10 @@ const SubscriptionCard = ({
             <View className="items-end">
               <Text className="sub-renewal-label">Next charge</Text>
               <Text
-                className={`sub-renewal-date ${urgent && "text-destructive!"}`}
+                className={clsx(
+                  "sub-renewal-date",
+                  urgent && "text-destructive!",
+                )}
               >
                 {renewalLabel}
               </Text>
@@ -184,10 +167,10 @@ const SubscriptionCard = ({
                       borderWidth: 1,
                     },
                   ]}
-                  className={`sub-card-status`}
+                  className="sub-card-status"
                 >
                   <Text
-                    className={`text-[12px] font-sans-medium`}
+                    className="text-[12px] font-sans-medium"
                     style={[{ color: statusConf.text }]}
                     numberOfLines={1}
                   >

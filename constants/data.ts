@@ -47,7 +47,6 @@ export const UPCOMING_SUBSCRIPTIONS: UpcomingSubscription[] = [
 export const HOME_SUBSCRIPTIONS: Subscription[] = [
   {
     id: "test-test",
-    icon: "",
     name: "Test Sub",
     plan: "Teams Plan",
     category: "Design",

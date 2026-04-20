@@ -108,7 +108,7 @@
   }
 
   .search-input {
-    @apply flex-1 font-sans-medium tracking-wide text-base color-primary ml-3 placeholder:text-muted-foreground;
+    @apply flex-1 font-sans-medium tracking-wide text-base text-primary ml-3 placeholder:text-muted-foreground;
   }
 
   .search-button-icon {

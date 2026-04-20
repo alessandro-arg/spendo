@@ -1,3 +1,4 @@
+import { CATEGORIES } from "@/constants/categories";
 import { icons } from "@/constants/icons";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import clsx from "clsx";
@@ -15,16 +16,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const categoryOptions = [
-  "Entertainment",
-  "AI Tools",
-  "Developer Tools",
-  "Design",
-  "Productivity",
-  "Cloud",
-  "Music",
-  "Other",
-] as const;
+const categoryOptions = CATEGORIES.slice(1); // Exclude "All"
 
 const currencyOptions = [
   { value: "USD", label: "USD ($)" },
@@ -146,7 +138,7 @@ const CreateSubscriptionModal = ({
 
     onCreate(subscription);
 
-    posthog.capture("subscription_created", {
+    posthog?.capture("subscription_created", {
       subscription_name: subscription.name,
       subscription_price: subscription.price,
       subscription_billing: subscription.billing,
