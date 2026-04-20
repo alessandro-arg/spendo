@@ -4,11 +4,11 @@ import SubscriptionCard from "@/components/SubscriptionCard";
 import UpcomingSubscriptionCard, {
   getDaysUntil,
 } from "@/components/UpcomingSubscriptionCard";
-import { HOME_BALANCE, HOME_SUBSCRIPTIONS } from "@/constants/data";
+import { HOME_BALANCE } from "@/constants/data";
 import images from "@/constants/images";
 import "@/global.css";
-import { formatCurrency } from "@/lib/utils";
 import { useSubscriptionStore } from "@/lib/SubscriptionContext";
+import { formatCurrency } from "@/lib/utils";
 import { useUser } from "@clerk/expo";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -28,7 +28,7 @@ export default function App() {
   const { user } = useUser();
   const subscriptions = useSubscriptionStore((state) => state.subscriptions);
   const addSubscription = useSubscriptionStore(
-    (state) => state.addSubscription
+    (state) => state.addSubscription,
   );
   const [expandedSubscriptionId, setExpandedSubscriptionId] = useState<
     string | null
@@ -204,14 +204,16 @@ export default function App() {
               <ListHeading title="Upcoming" />
 
               <FlatList
-                data={HOME_SUBSCRIPTIONS.filter((sub) => {
-                  const days = getDaysUntil(sub.renewalDate ?? "");
-                  return days >= 0 && days <= 10;
-                }).sort(
-                  (a, b) =>
-                    getDaysUntil(a.renewalDate ?? "") -
-                    getDaysUntil(b.renewalDate ?? ""),
-                )}
+                data={subscriptions
+                  .filter((sub) => {
+                    const days = getDaysUntil(sub.renewalDate ?? "");
+                    return days >= 0 && days <= 10;
+                  })
+                  .sort(
+                    (a, b) =>
+                      getDaysUntil(a.renewalDate ?? "") -
+                      getDaysUntil(b.renewalDate ?? ""),
+                  )}
                 renderItem={({ item }) => (
                   <UpcomingSubscriptionCard {...item} />
                 )}
